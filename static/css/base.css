@@ -6,4 +6,13 @@ body {
     background-color: beige;
 }
 
+.product-body {
+    background-color: aqua;
+    min-height: 80vh;
+}
+
+.product-list {
+    background-color: blue;
+}
+
 /* ------------- Media Queries -------------*/
