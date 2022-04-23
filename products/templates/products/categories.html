@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_title %} All Categories {% endblock %}
+
+{% block content %}
+
+<div class="container-fluid product-body">
+    <div class="container product-list">
+        <div class="row">
+            {% for cat in categories %}
+            <div class="card border-primary mb-3" style="max-width: 18rem;">
+                <div class="card-body text-primary">
+                  <h5 class="card-title">{{cat.category_name}}</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+              </div>
+              {% endfor %}
+    
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
