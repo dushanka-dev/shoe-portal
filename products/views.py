@@ -7,18 +7,18 @@ from .models import Category, Product
 # Create your views here.
 
 
-class AllProducts(ListView):
-    """List all product to page"""
+# class AllProducts(ListView):
+#     """List all product to page"""
 
-    model = Product
-    template_name = 'products/products.html'
-    context_object_name = 'products'
+#     model = Product
+#     template_name = 'products/products.html'
+#     context_object_name = 'products'
 
 
 def all_products(request):
     """List all product categories"""
 
-    products = Product.objects.all()
+    products = Product.objects.all().order_by('name')
     category = None
 
     if request.GET:
