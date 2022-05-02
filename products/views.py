@@ -1,7 +1,6 @@
 from django.shortcuts import render
 # from django.shortcuts import get_object_or_404
 # from django.http import HttpResponseRedirect
-# from django.views import View
 from django.views.generic import ListView, DetailView
 from .models import Category, Product
 
@@ -15,6 +14,26 @@ class AllProducts(ListView):
     template_name = 'products/products.html'
     context_object_name = 'products'
 
+
+def all_products(request):
+    """List all product categories"""
+
+    products = Product.objects.all()
+    category = None
+
+    if request.GET:
+        if 'category' in request.GET:
+            category = request.GET['category'].split(',')
+            products = products.filter(category__name__in=category)
+            category = Category.objects.filter(name__in=category)
+
+    context = {
+        'products': products,
+        'active_category': category,
+    }
+
+    return render(request, 'products/products.html', context)
+
 class Categories(ListView):
     """List all product categories"""
 
@@ -23,19 +42,8 @@ class Categories(ListView):
     context_object_name = 'categories'
 
 
-class ProductsCategory(ListView):
-    """List of all products in a Category"""
-
-    model = Category
-    template_name = 'products/product_category_detail.html'
-    context_object_name = 'products_in_category'
-
-    # def get_queryset(self):
-    #     return Category.objects.all()
-
-
 class ProductDetail(DetailView):
-    """Display individual products on product page"""
+    """Display products details on product page"""
 
     model = Product
     template_name = 'products/product_detail.html'
