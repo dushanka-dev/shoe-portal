@@ -1,38 +1,31 @@
 from django.shortcuts import render
 # from django.shortcuts import get_object_or_404
 # from django.http import HttpResponseRedirect
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, View
 from .models import Category, Product
 
 # Create your views here.
 
+class AllProducts(View):
+     """List all product categories"""
 
-# class AllProducts(ListView):
-#     """List all product to page"""
+     def get(self, request):
+        """List all product categories"""
 
-#     model = Product
-#     template_name = 'products/products.html'
-#     context_object_name = 'products'
+        products = Product.objects.all().order_by('name')
+        category = None
 
-
-def all_products(request):
-    """List all product categories"""
-
-    products = Product.objects.all().order_by('name')
-    category = None
-
-    if request.GET:
         if 'category' in request.GET:
             category = request.GET['category'].split(',')
             products = products.filter(category__name__in=category)
             category = Category.objects.filter(name__in=category)
 
-    context = {
-        'products': products,
-        'active_category': category,
-    }
+        context = {
+            'products': products,
+            'active_category': category,
+        }
 
-    return render(request, 'products/products.html', context)
+        return render(request, 'products/products.html', context)
 
 class Categories(ListView):
     """List all product categories"""
