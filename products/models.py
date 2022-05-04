@@ -4,18 +4,18 @@ from django.db import models
 class Category(models.Model):
     """Product categories model fields"""
 
-    category_name = models.CharField(max_length=254)
+    name = models.CharField(max_length=254)
 
     def __str__(self):
-        return self.category_name
+        return self.name
 
 
 class Product(models.Model):
     """Product model fields"""
 
-    product_category = models.ForeignKey('Category', null=True, blank=True, on_delete=models.SET_NULL)
+    category = models.ForeignKey('Category', null=True, blank=True, on_delete=models.SET_NULL)
     sku = models.CharField(max_length=254, null=True, blank=True)
-    product_name = models.CharField(max_length=254)
+    name = models.CharField(max_length=254)
     image = models.ImageField(null=True, blank=True)
     image_url = models.URLField(max_length=1024, null=True, blank=True)
     description = models.TextField()
@@ -23,4 +23,4 @@ class Product(models.Model):
     rating = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
-        return self.product_name
+        return self.name

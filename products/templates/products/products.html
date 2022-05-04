@@ -11,9 +11,11 @@
             {% for product in products %}
             <div class="col-lg-4">
                 <div class="card" style="width: 18rem;">
+                    {% if product.image %}
                     <img src="{{ product.image.url }}" class="card-img-top" alt="...">
+                    {% endif %}
                     <div class="card-body">
-                      <h5 class="card-title">{{ product.product_name }}</h5>
+                      <h5 class="card-title">{{ product.name }}</h5>
                       <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                       <a href="{% url 'product-detail' product.id %}" class="btn btn-primary">Go somewhere</a>
                     </div>

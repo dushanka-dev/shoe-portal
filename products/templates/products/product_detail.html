@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block extra_title %} | {{product_detail.product_name}} {% endblock %}
+{% block extra_title %} | {{product_detail.name}} {% endblock %}
 
 {% block content %}
 
@@ -13,8 +13,11 @@
         </div>
 
         <div class="col-lg-8">
-            <p>Product Name: {{product_detail.product_name}}</p>
-            <p>Category: {{product_detail.product_category}}</p>
+            {% if product.image %}
+                    <!-- <img src="{{ product.image.url }}" class="card-img-top" alt="..."> -->
+             {% endif %}
+            <p>Product Name: {{product_detail.name}}</p>
+            <p>Category: {{product_detail.category}}</p>
             <p>Description: {{product_detail.description}}</p>
             <p>Sku: {{product_detail.sku}}</p>
             <p>Price: {{product_detail.price}}</p>

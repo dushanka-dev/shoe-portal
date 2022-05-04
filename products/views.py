@@ -1,19 +1,33 @@
 from django.shortcuts import render
 # from django.shortcuts import get_object_or_404
 # from django.http import HttpResponseRedirect
-# from django.views import View
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, View
 from .models import Category, Product
 
 # Create your views here.
 
+class AllProducts(View):
+    """Products view to retrieve and filter products and categories"""
 
-class AllProducts(ListView):
-    """List all product to page"""
+    def get(self, request):
+        """Get product objects, order them alphabetically.
+           Get category, split by commas. Filter products and category.
+        """
 
-    model = Product
-    template_name = 'products/products.html'
-    context_object_name = 'products'
+        products = Product.objects.all().order_by('name')
+        category = None
+
+        if 'category' in request.GET:
+            category = request.GET['category'].split(',')
+            products = products.filter(category__name__in=category)
+            category = Category.objects.filter(name__in=category)
+
+        context = {
+            'products': products,
+            'active_category': category,
+        }
+
+        return render(request, 'products/products.html', context)
 
 class Categories(ListView):
     """List all product categories"""
@@ -23,19 +37,8 @@ class Categories(ListView):
     context_object_name = 'categories'
 
 
-class ProductsCategory(ListView):
-    """List of all products in a Category"""
-
-    model = Category
-    template_name = 'products/product_category_detail.html'
-    context_object_name = 'products_in_category'
-
-    # def get_queryset(self):
-    #     return Category.objects.all()
-
-
 class ProductDetail(DetailView):
-    """Display individual products on product page"""
+    """Display products details on product page"""
 
     model = Product
     template_name = 'products/product_detail.html'
