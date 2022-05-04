@@ -7,11 +7,11 @@ from .models import Category, Product
 # Create your views here.
 
 class AllProducts(View):
-     """Products view to retrieve and filter products and categories"""
+    """Products view to retrieve and filter products and categories"""
 
-     def get(self, request):
-        """Get product objects, order them alphabetically. 
-           Get category, split by commas. Filter products and category. 
+    def get(self, request):
+        """Get product objects, order them alphabetically.
+           Get category, split by commas. Filter products and category.
         """
 
         products = Product.objects.all().order_by('name')
