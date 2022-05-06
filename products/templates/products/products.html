@@ -12,10 +12,17 @@
             <div class="col-lg-4">
                 <div class="card" style="width: 18rem;">
                     {% if product.image %}
-                    <img src="{{ product.image.url }}" class="card-img-top" alt="...">
+                        <a href="{% url 'product-detail' product.id %}">
+                                <img class="card-img-top img-fluid" src="{{ product.image.url }}" alt="{{ product.name }}">
+                            </a>
+                    {% else %}
+                        <a href="{% url 'product-detail' product.id %}">
+                                <img class="card-img-top img-fluid" src="{{ MEDIA_URL }}default-image_wCRwsov.png" alt="{{ product.name }}">
+                            </a>
                     {% endif %}
                     <div class="card-body">
                       <h5 class="card-title">{{ product.name }}</h5>
+                      <h6>{{ product.price }}</h6>
                       <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                       <a href="{% url 'product-detail' product.id %}" class="btn btn-primary">Go somewhere</a>
                     </div>

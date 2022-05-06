@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.db.models import Q
 # from django.shortcuts import get_object_or_404
 # from django.http import HttpResponseRedirect
 from django.views.generic import ListView, DetailView, View
@@ -16,15 +17,34 @@ class AllProducts(View):
 
         products = Product.objects.all().order_by('name')
         category = None
+        sort = None
+        direction = None
+
+        if 'sort' in request.GET:
+            sortkey = request.GET['sort']
+            sort = sortkey
+
+            if sortkey == 'sort':
+                sortkey = 'lower_name'
+                products = products.annotate(lower_name=Lower('name'))
+            
+            if 'direction' in request.GET:
+                direction = request.GET['direction']
+                if direction == 'desc':
+                    sortkey = f'-{sortkey}'
+            products = products.order_by(sortkey)
 
         if 'category' in request.GET:
             category = request.GET['category'].split(',')
             products = products.filter(category__name__in=category)
             category = Category.objects.filter(name__in=category)
 
+        current_sorting = f'{sort}_{direction}'
+
         context = {
             'products': products,
             'active_category': category,
+            'current_sorting': current_sorting,
         }
 
         return render(request, 'products/products.html', context)
