@@ -9,19 +9,30 @@
     <div class="row">
 
         <div class="col-lg-4">
-                <img src="{{ product_detail.image.url }}" alt="" width="100%" height="100%">
+            <img src="{{ product_detail.image.url }}" alt="" width="100%" height="100%">
         </div>
 
         <div class="col-lg-8">
             {% if product.image %}
-                    <!-- <img src="{{ product.image.url }}" class="card-img-top" alt="..."> -->
-             {% endif %}
+            <!-- <img src="{{ product.image.url }}" class="card-img-top" alt="..."> -->
+            {% endif %}
             <p>Product Name: {{product_detail.name}}</p>
-            <p>Category: {{product_detail.category}}</p>
             <p>Description: {{product_detail.description}}</p>
             <p>Sku: {{product_detail.sku}}</p>
             <p>Price: {{product_detail.price}}</p>
 
+            {% if product_detail.category %}
+            <p class="small mt-1 mb-0">
+                <a class="text-muted" href="{% url 'products' %}?category={{ product_detail.category }}">
+                    <i class="fas fa-tag mr-1"></i>{{ product_detail.category }}
+                </a>
+            </p>
+            {% endif %}
+            {% if product.rating %}
+            <small class="text-muted"><i class="fas fa-star mr-1"></i>{{ product.rating }} / 5</small>
+            {% else %}
+            <small class="text-muted">No Rating</small>
+            {% endif %}
         </div>
     </div>
 </div>
