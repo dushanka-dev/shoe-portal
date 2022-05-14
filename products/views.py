@@ -49,6 +49,23 @@ class AllProducts(View):
 
         return render(request, 'products/products.html', context)
 
+
+class SearchResults(ListView):
+    """List all search results"""
+
+    model = Product
+    template_name = 'products/search.html'
+    context_object_name = 'search_queries'
+
+    def get_queryset(self):
+        """List all search results"""
+        query = self.request.GET.get("q")
+        search_queries = Product.objects.filter(
+            Q(name__icontains=query) | Q(description__icontains=query)
+        )
+        return search_queries
+
+
 class Categories(ListView):
     """List all product categories"""
 
