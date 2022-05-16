@@ -8,6 +8,7 @@
 <div class="container-fluid product-body">
     <div class="container product-list">
         <div class="row">
+            {% if cart_items %}
             <div class="col-md-9">
                 <article class="card card-body mb-3">
                     <div class="row gy-3 align-items-center">
@@ -15,8 +16,7 @@
                                 <div class="aside">
                                     <img src="" height="72" width="72" class="img-thumbnail img-sm"> </div>
                                 <div class="info">
-                                    <p class="title">T-shirts with multiple colors, for men and lady </p> <span
-                                        class="text-muted">Clothes</span>
+                                    <a href="{% url 'products' %}"></a>
                                 </div>
                             </a> </div>
                         <div class="col-auto">
@@ -58,12 +58,17 @@
                             <dd class="text-end text-dark h5"> $1357.97 </dd>
                         </dl>
                         <hr>
-                        <p class="text-center mt-3"> <img src="bootstrap5-ecommerce/images/misc/payments.png"
+                        <p class="text-center mt-3"> <img src=""
                                 height="24"> </p> <a href="#" class="btn btn-primary mb-2 w-100">Checkout</a> <a
                             href="#" class="btn btn-outline-primary w-100">Back to Shopping</a>
                     </div>
                 </div>
             </aside>
+
+            {% else %}
+            <h3>Cart is empty!</h3>
+
+            {% endif %}
         </div>
     </div>
 
