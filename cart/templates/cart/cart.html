@@ -33,12 +33,17 @@
                                     </svg> </button> </div>
                         </div>
                         <p>Quantity: {{ item.quantity }}</p>
+                        {% if item.product.shoe_size %}
+                        <p class="my-0"><strong>Size: </strong>{{ item.size|upper }}</p>
+                        {% else %}
+                        <strong>N/A</strong>
+                        {% endif %}
                         <div class="col"> <strong class="price">Price: £{{ item.product.price }}</strong> </div>
                         <div class="col text-end"> <a href="#" class="btn btn-icon btn-light"> <i
                                     class="fa fa-trash"></i> </a> </div>
                     </div>
                 </article>
-                {% endfor %}
+            {% endfor %}
 
 
             </div>
