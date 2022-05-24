@@ -8,7 +8,6 @@
 
 <!-- Form update success message -->
 <div id="message_container">
-  <!-- Form update success message -->
 {% if messages %}
 {% for message in messages %}
 <div class="text-center alert alert-primary {{ message.tags }}" role="alert">
@@ -24,17 +23,46 @@
 
         <div class="col">
 
-            <h3>Hello</h3>
+            <h3>Profile</h3>
             <div class="card" style="width: 18rem;">
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item">Username: {{ user }}</li>
+                  {% if not user.userprofile.default_phone_number %}
+                  <li class="list-group-item">Please add your phone number</li>
+                  {% else %}
                   <li class="list-group-item">Phone Number: {{ user.userprofile.default_phone_number }}</li>
+                  {% endif %}
+                  {% if not user.userprofile.default_street_address1 %}
+                  <li class="list-group-item">Please add your street address 1</li>
+                  {% else %}
                   <li class="list-group-item">Street Address 1: {{ user.userprofile.default_street_address1 }}</li>
+                  {% endif %}
+                  {% if not user.userprofile.default_street_address2 %}
+                  <li class="list-group-item">Please add your street address 2</li>
+                  {% else %}
                   <li class="list-group-item">Street Address 2: {{ user.userprofile.default_street_address2 }}</li>
+                  {% endif %}
+
+                  {% if not user.userprofile.default_town_or_city %}
+                  <li class="list-group-item">Please add your Town or City</li>
+                  {% else %}
                   <li class="list-group-item">Town or City: {{ user.userprofile.default_town_or_city }}</li>
+                  {% endif %}
+                  {% if not user.userprofile.default_county %}
+                  <li class="list-group-item">Please add your County</li>
+                  {% else %}
                   <li class="list-group-item">County: {{ user.userprofile.default_county }}</li>
+                  {% endif %}
+                  {% if not user.userprofile.default_postcode %}
+                  <li class="list-group-item">Please add your Post Code</li>
+                  {% else %}
                   <li class="list-group-item">Post Code: {{ user.userprofile.default_postcode }}</li>
+                  {% endif %}
+                  {% if not user.userprofile.default_country %}
+                  <li class="list-group-item">Please select your country</li>
+                  {% else %}
                   <li class="list-group-item">Country: {{ user.userprofile.default_country }}</li>
+                  {% endif %}
                 </ul>
               </div>
 
