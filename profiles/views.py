@@ -14,18 +14,11 @@ from .models import UserProfile
 def profiles(request):
     """Display profile"""
 
+    profile = get_object_or_404(UserProfile, user=request.user)
+
     template = 'profiles/profile.html'
     context = {
-
+        'profile': profile,
     }
 
     return render(request, template, context)
-
-
-# class Profiles(DetailView):
-#     """Display profile"""
-
-#     model = UserProfile
-#     template_name = 'profiles/profile.html'
-#     pk_url_kwarg = 'pk'
-#     # template_name_field = 'profile'
