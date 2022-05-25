@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block extra_title %} Profile {% endblock %}
+
+{% block content %}
+
+<!-- Form update success message -->
+<div id="message_container">
+{% if messages %}
+{% for message in messages %}
+<div class="text-center alert alert-primary {{ message.tags }}" role="alert">
+  {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+</div>
+
+{% if user.is_authenticated %}
+<div class="container text-center">
+    <div class="row">
+
+        <div class="col">
+
+            <h3>Profile</h3>
+            <div class="card" style="width: 18rem;">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">Username: {{ user }}</li>
+                  {% if not user.userprofile.default_phone_number %}
+                  <li class="list-group-item">Please add your phone number</li>
+                  {% else %}
+                  <li class="list-group-item">Phone Number: {{ user.userprofile.default_phone_number }}</li>
+                  {% endif %}
+                  {% if not user.userprofile.default_street_address1 %}
+                  <li class="list-group-item">Please add your street address 1</li>
+                  {% else %}
+                  <li class="list-group-item">Street Address 1: {{ user.userprofile.default_street_address1 }}</li>
+                  {% endif %}
+                  {% if not user.userprofile.default_street_address2 %}
+                  <li class="list-group-item">Please add your street address 2</li>
+                  {% else %}
+                  <li class="list-group-item">Street Address 2: {{ user.userprofile.default_street_address2 }}</li>
+                  {% endif %}
+
+                  {% if not user.userprofile.default_town_or_city %}
+                  <li class="list-group-item">Please add your Town or City</li>
+                  {% else %}
+                  <li class="list-group-item">Town or City: {{ user.userprofile.default_town_or_city }}</li>
+                  {% endif %}
+                  {% if not user.userprofile.default_county %}
+                  <li class="list-group-item">Please add your County</li>
+                  {% else %}
+                  <li class="list-group-item">County: {{ user.userprofile.default_county }}</li>
+                  {% endif %}
+                  {% if not user.userprofile.default_postcode %}
+                  <li class="list-group-item">Please add your Post Code</li>
+                  {% else %}
+                  <li class="list-group-item">Post Code: {{ user.userprofile.default_postcode }}</li>
+                  {% endif %}
+                  {% if not user.userprofile.default_country %}
+                  <li class="list-group-item">Please select your country</li>
+                  {% else %}
+                  <li class="list-group-item">Country: {{ user.userprofile.default_country }}</li>
+                  {% endif %}
+                </ul>
+              </div>
+
+        </div>
+
+    </div>
+
+    <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Update Profile
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update your profile</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="" class="" enctype=multipart/form-data>
+          {% csrf_token %}
+
+          {{ form | crispy}}
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Update</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+    
+
+</div>
+
+{% endif %}
+
+
+{% endblock %}

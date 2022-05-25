@@ -76,7 +76,7 @@
                                 {% if request.user.is_superuser %}
                                     <a href="" class="dropdown-item">Product Management</a>
                                 {% endif %}
-                                <a href="" class="dropdown-item">My Profile</a>
+                                <a href="{% url 'profile' %}" class="dropdown-item">My Profile</a>
                                 <a href="{% url 'account_logout' %}" class="dropdown-item">Logout</a>
                             {% else %}
                                 <a href="{% url 'account_signup' %}" class="dropdown-item">Register</a>
@@ -141,6 +141,15 @@
       <p class="float-right"><a href="#">Back to top</a></p>
       <p>© 2022 Shoe Portal, Inc. · <a href="#">Privacy</a> · <a href="#">Terms</a></p>
     </footer>
+
+    <script type="text/javascript">
+        // Make messages disappear
+        let feedback_msg = document.getElementById("message_container");
+
+        setTimeout(function(){ 
+            feedback_msg.style.display = "none"; 
+        }, 4000);
+    </script>
 
     
   </body>
