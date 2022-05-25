@@ -13,9 +13,9 @@
             <!-- Cart information section -->
 
             {% for item in cart_items %}
-            <div class="col-xs-12 col-lg-8">
+            <div class="col-xs-12 col-lg-9">
 
-                <table class="table table-borderless text-white">
+                <table class="table table-sm table-borderless text-white">
                     <thead>
                         <tr>
                             <th scope="col">Product Info</th>
@@ -28,18 +28,51 @@
                     <tbody>
                         <tr>
                             <td>{% if item.product.image %}
-                                <img class="card-img-top img-fluid" src="{{ item.product.image.url }}" alt="{{ product.name }}">
+                                <img class="card-img-top img-fluid w-10" src="{{ item.product.image.url }}"
+                                    alt="{{ product.name }}">
                                 {% else %}
-                                <img class="card-img-top img-fluid" src="/media/defaultimage.png" alt="{{ product.name }}">
+                                <img class="card-img-top img-fluid" src="/media/defaultimage.png"
+                                    alt="{{ product.name }}">
                                 {% endif %}</td>
                             <td><a href="{% url 'products' %}"> Product: {{ item.product.name }}</a></td>
                             <td><strong class="price">£{{ item.product.price }}</strong></td>
-                            <td>{% if item.product.shoe_size %}
-                                Size: {{ item.size|upper }}
-                                {% else %}
-                                <strong>N/A</strong>
-                                {% endif %}</td>
-                            <td>Quantity: {{ item.quantity }}</td>
+                            <td>
+                                <form class="form update-form" method="POST" action="">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            {% if item.product.shoe_size %}
+                                                Size: {{ item.size|upper }}
+                                                {% else %}
+                                                <strong>N/A</strong>
+                                                {% endif %}
+                                            <div class="input-group-prepend">
+                                                <button class="decrement-qty btn btn-sm btn-black rounded-0" 
+                                                    data-item_id="{{ item.item_id }}" id="decrement-qty_{{ item.item_id }}">
+                                                    <span>
+                                                        <i class="fas fa-minus fa-sm"></i>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                            <input class="form-control form-control-sm qty_input" type="number"
+                                                name="quantity" value="{{ item.quantity }}" min="1" max="99"
+                                                data-item_id="{{ item.item_id }}"
+                                                id="id_qty_{{ item.item_id }}">
+                                            <div class="input-group-append">
+                                                <button class="increment-qty btn btn-sm btn-black rounded-0"
+                                                    data-item_id="{{ item.item_id }}" id="increment-qty_{{ item.item_id }}">
+                                                    <span>
+                                                        <i class="fas fa-plus fa-sm"></i>
+                                                    </span>
+                                                </button>
+                                            </div>
+                            
+                                            
+                                        </div>
+                                    </div>
+                                </form>
+                            </td>
+
                         </tr>
                     </tbody>
                 </table>
