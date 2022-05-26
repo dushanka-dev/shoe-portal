@@ -21,4 +21,7 @@ body {
     object-fit: cover;
 }
 
+.update-link, .remove-item {
+    cursor: pointer;
+}
 /* ------------- Media Queries -------------*/
