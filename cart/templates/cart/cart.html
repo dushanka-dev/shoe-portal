@@ -6,46 +6,57 @@
 {% block content %}
 
 <div class="container">
-    <div class="product-list">
-        {% if cart_items %}
+    <div class="row">
+            <div class="col">
+                <hr>
+                <h2 class="logo-font mb-4">Shopping Bag</h2>
+                <hr>
+            </div>
 
-        <div class="row">
+            {% if cart_items %}
+      
             <!-- Cart information section -->
 
-            {% for item in cart_items %}
-            <div class="col-xs-12 col-lg-9">
+            <div class="row">
+                <div class="col-9">
 
-                <table class="table table-sm table-borderless text-white">
-                    <thead>
-                        <tr>
+                    <table class="table table-borderless">
+                        <thead>
+                          <tr>
+                            <th scope="col"></th>
                             <th scope="col">Product Info</th>
                             <th scope="col"></th>
                             <th scope="col">Price</th>
-                            <th scope="col">Size</th>
                             <th scope="col">Qty</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>{% if item.product.image %}
-                                <img class="card-img-top img-fluid w-10" src="{{ item.product.image.url }}"
-                                    alt="{{ product.name }}">
-                                {% else %}
-                                <img class="card-img-top img-fluid" src="/media/defaultimage.png"
-                                    alt="{{ product.name }}">
-                                {% endif %}</td>
-                            <td><a href="{% url 'products' %}"> Product: {{ item.product.name }}</a></td>
-                            <td><strong class="price">£{{ item.product.price }}</strong></td>
+                          </tr>
+                        </thead>
+                        
+                        <tbody>
+                        {% for item in cart_items %}
+                          <tr>
                             <td>
+                                <td>{% if item.product.image %}
+                                    <img class="card-img-top img-fluid w-10" src="{{ item.product.image.url }}"
+                                        alt="{{ product.name }}">
+                                    {% else %}
+                                    <img class="card-img-top img-fluid" src="/media/defaultimage.png"
+                                        alt="{{ product.name }}">
+                                    {% endif %}</td>
+                            </td>
+                            <td>
+                                <p class="my-0"><a href="{% url 'products' %}"> Product: {{ item.product.name }}</a></p>
+                                <p class="my-0"><strong>Size: </strong>{% if item.product.shoe_size %}{{ item.size|upper }}{% else %}N/A{% endif %}</p>
+                                <p class="my-0 small text-muted">SKU: {{ item.product.sku|upper }}</p>
+                            </td>
+                            <td>
+                                £{{ item.product.price }}
+                            </td>
+                            <td>
+
                                 <form class="form update-form" method="POST" action="{% url 'edit_cart' item.item_id %}">
                                     {% csrf_token %}
                                     <div class="form-group">
                                         <div class="input-group">
-                                            {% if item.product.shoe_size %}
-                                                Size: {{ item.size|upper }}
-                                                {% else %}
-                                                <strong>N/A</strong>
-                                                {% endif %}
                                             <div class="input-group-prepend">
                                                 <button class="decrement-qty btn btn-sm btn-black rounded-0" 
                                                     data-item_id="{{ item.item_id }}" id="decrement-qty_{{ item.item_id }}">
@@ -66,6 +77,9 @@
                                                     </span>
                                                 </button>
                                             </div>
+                                            {% if item.product.shoe_size %}
+                                            <input type="hidden" name="product_size" value="{{ item.size }}">
+                                            {% endif %}
                             
                                             
                                         </div>
@@ -73,48 +87,55 @@
                                 </form>
                                 <a class="update-link text-info"><small>Update</small></a>
                                 <a class="remove-item text-danger float-right" id="remove_{{ item.item_id }}" data-size="{{ item.size }}"><small>Remove</small></a>
+
+
                             </td>
+                          </tr>
+                        {% endfor %}
+                        </tbody>
+                      </table>
+                      
 
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                </div>
+                
 
-            {% endfor %}
+                <div class="col-3">
 
-            <!-- Cart total Cost section -->
-            <div class="col-xs-12 col-lg-3">
-
-                <div class="card" style="width: 18rem;">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Cart Total: £{{ total|floatformat:2 }}</li>
-                        <li class="list-group-item">Delivery: £{{ delivery|floatformat:2 }}</li>
-                        <li class="list-group-item">
-                            <h4 class="mt-4"><strong>Grand Total: ${{ grand_total|floatformat:2 }}</strong></h4>
-                            {% if free_delivery_delta > 0 %}
-                            <p class="mb-1 text-danger">
-                                You could get free delivery by spending just <strong>${{ free_delivery_delta }}</strong>
-                                more!
-                            </p>
-                            {% endif %}
-                        </li>
-                        <li class="list-group-item"><a href="#" class="btn btn-primary mb-2 w-100">Checkout</a> <a
-                                href="{% url 'products' %}" class="btn btn-outline-primary w-100">Back to Shopping</a>
-                        </li>
-                    </ul>
+                    <!-- Cart total Cost section -->
+                    <div class="col-xs-12 col-lg-3">
+        
+                        <div class="card" style="width: 18rem;">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Cart Total: £{{ total|floatformat:2 }}</li>
+                                <li class="list-group-item">Delivery: £{{ delivery|floatformat:2 }}</li>
+                                <li class="list-group-item">
+                                    <h4 class="mt-4"><strong>Grand Total: ${{ grand_total|floatformat:2 }}</strong></h4>
+                                    {% if free_delivery_delta > 0 %}
+                                    <p class="mb-1 text-danger">
+                                        You could get free delivery by spending just <strong>${{ free_delivery_delta }}</strong>
+                                        more!
+                                    </p>
+                                    {% endif %}
+                                </li>
+                                <li class="list-group-item"><a href="#" class="btn btn-primary mb-2 w-100">Checkout</a> <a
+                                        href="{% url 'products' %}" class="btn btn-outline-primary w-100">Back to Shopping</a>
+                                </li>
+                            </ul>
+                        </div>
+        
+                    </div>
+        
                 </div>
 
             </div>
 
+            {% else %}
+                <h3>Cart is empty!</h3>
 
-        </div>
+            {% endif %}
 
 
     </div>
-    {% else %}
-    <h3>Cart is empty!</h3>
-
-    {% endif %}
 </div>
 
 </div>
