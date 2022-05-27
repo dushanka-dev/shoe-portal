@@ -52,6 +52,7 @@ class EditCart(View):
     def post(self, request, item_id):
         """ Add a quantity of the product to the cart """
 
+        product = Product.objects.get(pk=item_id)
         quantity = int(request.POST.get('quantity'))
         size = None
         if 'product_size' in request.POST:
@@ -71,6 +72,7 @@ class EditCart(View):
             else:
                 cart.pop(item_id)
 
+        messages.success(request, f'Updated {product.name} quantity!')
         request.session['cart'] = cart
         return redirect(reverse('cart_view'))
 
