@@ -74,7 +74,7 @@ class EditCart(View):
 class RemoveFromCart(View):
     """ Remove items from cart"""
 
-    def remove_from_bag(self, request, item_id):
+    def post(self, request, item_id):
         """Remove the item from the shopping bag"""
 
         try:
