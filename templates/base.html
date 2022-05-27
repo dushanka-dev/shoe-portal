@@ -135,7 +135,12 @@
     </header>
 
     {% if messages %}
-    <div class="message-container"></div>
+    <div class="message-container">
+        {% for message in messages %}
+            {% include 'includes/toasts/toast_success.html' %}
+                
+        {% endfor %}
+    </div>
     {% endif %}
 
     {% block page_header %}
@@ -146,6 +151,10 @@
     {% endblock %}
 
     {% block postloadjs %}
+    <script type="text/javascript">
+
+        $('.toast').toast('show');
+    </script>
     {% endblock %}
 
     <!-- Footer -->
@@ -153,15 +162,6 @@
         <p class="float-right"><a href="#">Back to top</a></p>
         <p>© 2022 Shoe Portal, Inc. · <a href="#">Privacy</a> · <a href="#">Terms</a></p>
     </footer>
-
-    <script type="text/javascript">
-        // Make messages disappear
-        let feedback_msg = document.getElementById("message_container");
-
-        setTimeout(function () {
-            feedback_msg.style.display = "none";
-        }, 4000);
-    </script>
 
 
 </body>
