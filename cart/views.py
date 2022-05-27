@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, reverse, HttpResponse
+from django.shortcuts import render, redirect, reverse, HttpResponse, get_object_or_404
 from django.views.generic import View
 from django.contrib import messages
 
@@ -19,7 +19,7 @@ class AddToCart(View):
     def post(self, request, item_id):
         """ Add a quantity of the product to the cart """
 
-        product = Product.objects.get(pk=item_id)
+        product = get_object_or_404(Product, pk=item_id)
         quantity = int(request.POST.get('quantity'))
         redirect_url = request.POST.get('redirect_url')
         size = None
@@ -52,7 +52,7 @@ class EditCart(View):
     def post(self, request, item_id):
         """ Add a quantity of the product to the cart """
 
-        product = Product.objects.get(pk=item_id)
+        product = get_object_or_404(Product, pk=item_id)
         quantity = int(request.POST.get('quantity'))
         size = None
         if 'product_size' in request.POST:
@@ -83,7 +83,7 @@ class RemoveFromCart(View):
     def post(self, request, item_id):
         """Remove the item from the shopping bag"""
 
-        product = Product.objects.get(pk=item_id)
+        product = get_object_or_404(Product, pk=item_id)
 
         try:
             size = None
