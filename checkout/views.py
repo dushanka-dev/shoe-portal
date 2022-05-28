@@ -3,16 +3,16 @@ from django.contrib import messages
 from django.views.generic import View
 from django.conf import settings
 
+import stripe
+
 from cart.contexts import cart_content
 from .forms import OrderForm
-
-import stripe
 
 
 class CheckoutForm(View):
     """Checkout form"""
 
-    def get(self, request):
+    def post(self, request):
 
         stripe_public_key = settings.STRIPE_PUBLIC_KEY
         stripe_secret_key = settings.STRIPE_SECRET_KEY
@@ -31,10 +31,12 @@ class CheckoutForm(View):
             currency=settings.STRIPE_CURRENCY,
         )
 
-        print(intent)
-
-
         order_form = OrderForm()
+
+        if not stripe_public_key:
+            messages.warning(request, 'Stripe public key is missing. \
+            Did you forget to set it in your environment?')
+
         template = 'checkout/checkout.html'
         context = {
             'order_form': order_form,
