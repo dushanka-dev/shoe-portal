@@ -1,8 +1,9 @@
 from django.contrib import admin
 from django.urls import path
 from . import views
-from .views import CheckoutForm
+from .views import CheckoutForm, CheckoutSuccess
 
 urlpatterns = [
     path('', CheckoutForm.as_view(), name='checkout'),
+    path('checkout-success/<order_number>', CheckoutSuccess.as_view(), name='checkout_success'),
 ]
