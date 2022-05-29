@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_title %} | Checkout {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="py-5 text-center">
+      <h2>Thank you!</h2>
+      <p class="text-black">Your order information is below. A confirmation email will be sent to <strong>{{ order.customer_email }}</strong>.</p>
+    </div>
+  
+    <div class="row">
+        <div class="col">
+
+          <ul class="list-group">
+            <li class="list-group-item">{{ order.order_number }}</li>
+            <li class="list-group-item">{{ order.order_date }}</li>
+          </ul>
+
+          <h3>Order Details:</h3>
+
+          {% for item in order.lineitems.all %}
+          <ul class="list-group">
+            <li class="list-group-item">{{ item.product.name }}{% if item.product_size %} - Size {{ item.product.size|upper }}{% endif %}</li>
+            <li class="list-group-item">{{ item.quantity }} @ ${{ item.product.price }} each</li>
+          </ul>
+          {% endfor %}
+
+          <h3>Delivery Info:</h3>
+            <ul class="list-group">
+              <li class="list-group-item">{{ order.full_name }}</li>
+              <li class="list-group-item">{{ order.street_address1 }}</li>
+
+              {% if order.street_address2 %}
+              <li class="list-group-item">{{ order.street_address1 }}</li>
+              {% endif %}
+
+              {% if order.county %}
+              <li class="list-group-item">{{ order.county }}</li>
+              {% endif %}
+
+              {% if order.postcode %}
+              <li class="list-group-item">{{ order.postcode }}</li>
+              {% endif %}
+              <li class="list-group-item">{{ order.country }}</li>
+            </ul>
+
+            <h3>Billing Info:</h3>
+
+            <ul class="list-group">
+              <li class="list-group-item">Order Total: {{ order.order_total }}</li>
+              <li class="list-group-item">Delivery Cost: {{ order.delivery_cost }}</li>
+              <li class="list-group-item">Grand Total: {{ order.grand_total }}</li>
+            </ul>
+  
+
+        </div>
+
+        <div class="row">
+          <div class="col-12 col-lg-7 text-right">
+            <a href="{% url 'products' %}?category=new_arrivals,deals,clearance" class="btn btn-black rounded-0 my-2">
+              <span class="icon mr-2">
+                <i class="fas fa-gifts"></i>
+              </span>
+              <span class="text-uppercase">Now check out the latest deals!</span>
+            </a>
+          </div>
+        </div>
+    </div>
+  
+</div>
+
+  {% endblock %}

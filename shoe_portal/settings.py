@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'profiles',
     'products',
     'cart',
+    'checkout',
 
     # Other
     'crispy_forms',
@@ -79,8 +80,13 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
                 'cart.contexts.cart_content'
             ],
+            'builtins': [
+                'crispy_forms.templatetags.crispy_forms_tags',
+                'crispy_forms.templatetags.crispy_forms_field',
+            ]
         },
     },
 ]
@@ -174,3 +180,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 FREE_DELIVERY_THRESHOLD = 30
 STANDARD_DELIVERY_PERCENTAGE = 10
+STRIPE_CURRENCY = 'usd'
+STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', '')
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', '')
+STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET', '')
