@@ -1,5 +1,5 @@
 import json
-from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.shortcuts import render, redirect, reverse, get_object_or_404, HttpResponse
 from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.views.generic import View
@@ -53,7 +53,11 @@ class CheckoutForm(View):
         }
         order_form = OrderForm(form_data)
         if order_form.is_valid():
-            order = order_form.save()
+            order = order_form.save(commit=False)
+            pid = request.POST.get('client_secret').split('_secret')[0]
+            order.stripe_pid = pid
+            order.original_cart = json.dumps(cart)
+            order.save()
             for item_id, item_data in cart.items():
                 try:
                     product = Product.objects.get(id=item_id)
@@ -75,7 +79,7 @@ class CheckoutForm(View):
                             order_line_item.save()
                 except Product.DoesNotExist:
                     messages.error(request, (
-                        "One of the products in your bag wasn't found in our database. "
+                        "One of the products in your cart wasn't found in our database. "
                         "Please call us for assistance!")
                     )
                     order.delete()
@@ -105,7 +109,6 @@ class CheckoutForm(View):
         }
 
         return render(request, template, context)
-
 
     def get(self, request):
 
